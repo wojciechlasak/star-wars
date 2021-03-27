@@ -2,10 +2,6 @@ export const CHARACTERS_LOADING = 'CHARACTERS_LOADING';
 export const CHARACTERS_FAIL = 'CHARACTERS_FAIL';
 export const CHARACTERS_SUCCESS = 'CHARACTERS_SUCCESS';
 
-export type CharactersType = {
-  information: CharactersInformation[]
-}
-
 export type CharactersInformation = {
   name: string,
   gender: string,
@@ -24,7 +20,7 @@ export interface CharactersFail {
 
 export interface CharactersSuccess {
   type: typeof CHARACTERS_SUCCESS,
-  payload: CharactersType,
+  payload: CharactersInformation[],
 }
 
 export type CharactersDispatchTypes = CharactersLoading | CharactersFail | CharactersSuccess;

@@ -1,33 +1,44 @@
 import { Dispatch } from 'redux';
 import { CharactersDispatchTypes, CHARACTERS_SUCCESS, CHARACTERS_LOADING, CHARACTERS_FAIL } from './characterActionTypes';
-import { API_URL } from '../../constants/constants';
 
-export const SET_CHARACTERS = 'SET_CHARACTERS';
+// export const getCharacters = (dispatch: Dispatch<CharactersDispatchTypes>) => {
 
-export type ActionSetCharacters = {
-  type: "SET_CHARACTERS",
-  payload: []
-}
+// }
 
-export const setCharacters = (characters: []):ActionSetCharacters => ({
-  type: SET_CHARACTERS,
-  payload: characters
-})
-
-export const getCharacters = () => async (dispatch: Dispatch<CharactersDispatchTypes>) => {
+export const fetchCharacters = (url: string) => async (dispatch: Dispatch<CharactersDispatchTypes>) => {
   try {
     dispatch({
       type: CHARACTERS_LOADING
     })
 
-    const res = await fetch(`${API_URL}/people`).then(res => res.json());
 
-    dispatch({
-      type: CHARACTERS_SUCCESS,
-      payload: {
-        information: res.results
-      }
+    await fetch(url)
+      .then(res => res.json())
+      .then(res => {
+        dispatch({
+          type: CHARACTERS_SUCCESS,
+          payload: res.results
+        })
+        return res.count;
+      })
+      .then(count => {
+        const numberOfPagesLeft = Math.ceil((count - 1) / 10);
+        let promises = [];
+        for (let i = 2; i <= numberOfPagesLeft; i++) {
+            promises.push(fetch(`${url}/?page=${i}`));
+        }
+        return Promise.all(promises)
     })
+    .then(res => res.map(value => value.json()))
+    .then(res => res.map(value => value.then(
+        response => {
+        
+        dispatch({
+          type: CHARACTERS_SUCCESS,
+          payload: response.results
+        })
+      }))
+    )
 
   } catch(e) {
     dispatch({

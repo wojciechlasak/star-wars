@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CharactersInformation } from './characterActionTypes';
 
 interface CharacterProps {
@@ -6,9 +6,20 @@ interface CharacterProps {
 }
 
 export const Character: React.FC<CharacterProps> = ({character}) => {
+  const [shouldShowMore, setShouldShowMore] = useState(false);
   return (
     <div>
-      {character.name}
+      <ul>
+        <li>{character.name}</li>
+        <li>{character.gender}</li>
+        <li>{character.birth_year}</li>
+        {shouldShowMore && (
+          <li>{character.height}</li>
+        )}
+      </ul>
+      <button onClick={() => setShouldShowMore(!shouldShowMore)}>
+        Pokaż {shouldShowMore ? 'mniej' : 'więcej'} info
+        </button>
     </div>
   )
 } 
