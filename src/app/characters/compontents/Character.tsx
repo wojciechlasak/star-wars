@@ -3,49 +3,50 @@ import { useSelector } from 'react-redux';
 import { RootStore } from '../../store';
 import { CharactersInformation } from '../characterActionTypes';
 import { CharacterImage } from './CharacterImage';
+import BirthIcon from '../../../media/birth.png';
 import '../styles/character.scss';
 
 interface CharacterProps {
   character: CharactersInformation;
 }
 
-export const Character: React.FC<CharacterProps> = ({character}) => {
-  const filmsState = useSelector( (state: RootStore) => state.films);
+export const Character: React.FC<CharacterProps> = ({ character }) => {
+  const filmsState = useSelector((state: RootStore) => state.films);
   const [shouldShowMore, setShouldShowMore] = useState(false);
   return (
     <div
       className="character-single"
     >
-      <div 
+      <div
         className="character-single-in"
         onClick={() => setShouldShowMore(!shouldShowMore)}
         style={{
           width: shouldShowMore ? '100%' : '50%'
         }}
       >
-        <div 
+        <div
           className="character-single-in-basic"
           style={{
             width: shouldShowMore ? '50%' : '100%'
           }}
         >
           <div>
-          <CharacterImage gender={character.gender} />
-          <div className="name uppercase">{character.name}</div>
-          <div>{character.birth_year}</div>
-          <div className="pale uppercase">{character.gender}</div>
+            <CharacterImage gender={character.gender} />
+            <div className="name uppercase">{character.name}</div>
+            <div><img src={BirthIcon} className="icon" alt="birth" /> {character.birth_year}</div>
+            <div className="pale uppercase">{character.gender}</div>
           </div>
         </div>
-        <div 
+        <div
           className="character-single-in-more"
           style={{
           }}
         >
           <ul>
-          <div className="uppercase name">Films:</div>
+            <div className="uppercase name">Films:</div>
             {!filmsState.loading && character.films.map(film => {
-              const index = Number(film.replace( /\D/g, ''));
-              return <li key={index}>{filmsState.films[index-1].title}</li>
+              const index = Number(film.replace(/\D/g, ''));
+              return <li key={index}>{filmsState.films[index - 1].title}</li>
             })}
           </ul>
           <div>{character.height}</div>
