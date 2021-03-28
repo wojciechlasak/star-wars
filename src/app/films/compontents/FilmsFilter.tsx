@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FilmsInformation } from '../filmsActionTypes';
 import { FilmCheckbox } from './FilmCheckbox';
+import '../styles/filmsFilter.scss';
 
 interface FilmsFilterProps {
   filmsList: FilmsInformation[],
@@ -47,7 +48,7 @@ export const FilmsFilter: React.FC<FilmsFilterProps> = ({filmsList, isShow, onCh
   return (
     <>
     {isShow && (
-    <div>
+    <div className="films-filter-container">
       <div onClick={handleClickAll}>{isAll ? 'Wyczyść' : "Zaznacz wszystkie"}</div>
       {films.map((film) => (
         <FilmCheckbox key={film.title} film={film} onChange={handeOnChangeCheckbox}/>

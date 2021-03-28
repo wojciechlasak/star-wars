@@ -1,0 +1,15 @@
+@import '../../../styles/variables.scss';
+
+.films-filter-container {
+  position: absolute;
+  z-index: 3;
+  top: 3em;
+  right: 10vw;
+  width: 15em;
+  background-color: rgb(59, 59, 59);
+  border-radius: $borderRadius;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
