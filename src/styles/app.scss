@@ -48,6 +48,11 @@
         &:hover {
           background-color: rgba($yellow, 0.8);
         }
+
+        &:disabled {
+          opacity: 0.5;
+        }
+
         img {
           width: 2em;
           vertical-align: middle;
@@ -56,8 +61,32 @@
     }
   }
 
-  .characters-length {
-    text-align: center;
-    font-size: 1.5em;
+  main {
+    position: relative;
+    .loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+  
+      img {
+        width: 1em;
+        animation: rotation 2s infinite linear;
+      }
+    }
+  
+    .characters-length {
+      text-align: center;
+      font-size: 1.5em;
+    }
+  }
+}
+
+@keyframes rotation {
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(359deg);
   }
 }
