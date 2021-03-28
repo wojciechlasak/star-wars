@@ -22,24 +22,6 @@
     font-size: 0.8em;
   }
 
-  @media (min-width: 1000px) {
-    &:nth-child(2n) {
-      .character-single-in {
-        margin-left: auto;
-
-        .character-single-in-basic {
-          order: 2;
-          float: right;
-        }
-
-        .character-single-in-more {
-          right: auto;
-          left: 0;
-        }
-      }
-    }
-  }
-
   .character-single-in {
     @include border($yellow);
     display: flex;
