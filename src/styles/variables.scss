@@ -1,0 +1,10 @@
+$yellow: #ffe81f;
+$background: #000;
+$contentWidth: 70rem;
+$spacing: 3rem;
+$borderRadius: 5px;
+
+@mixin border($color) {
+  border: 2px solid $color;
+  border-radius: $borderRadius;
+}
