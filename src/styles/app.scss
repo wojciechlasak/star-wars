@@ -1,0 +1,63 @@
+@import 'variables.scss';
+
+.r {
+  height: $spacing;
+}
+
+.app {
+  color: $yellow;
+  max-width: $contentWidth;
+  margin: 0 auto;
+  background-color: $background;
+
+  header {
+    text-align: center;
+    padding: 0 $spacing;
+
+    .logo {
+      width: 50vw;
+      max-width: 30em;
+      min-width: 15em;
+    }
+
+    .filters-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .search-bar {
+        @include border($yellow);
+        padding: 0.5rem;
+        background-color: $background;
+        color: $yellow;
+        font-family: inherit;
+        width: 15em;
+        font-size: 1.2em;
+      }
+
+      .filter-button {
+        margin-left: 1em;
+        padding: 0.5em 0.4em 0.4em 0.4em;
+        border-radius: $borderRadius;
+        border: none;
+        background-color: $yellow;
+        vertical-align: middle;
+        transition: background-color 0.3s;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba($yellow, 0.8);
+        }
+        img {
+          width: 2em;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  .characters-length {
+    text-align: center;
+    font-size: 1.5em;
+  }
+}

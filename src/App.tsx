@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore } from './app/store';
 import { fetchCharacters } from './app/characters/characktersActions';
@@ -6,6 +6,11 @@ import { CharactersList } from './app/characters/compontents/CharactersList';
 import { FilmsCheckboxes, FilmsFilter } from './app/films/compontents/FilmsFilter';
 import { fetchFilms } from './app/films/filmsAction';
 import { API_URL } from './constants/constants';
+import Logo from './media/logo.png';
+import FilterIcon from './media/filter-icon.png';
+import './styles/app.scss';
+
+import { CharactersInformation } from './app/characters/characterActionTypes';
 
 function App() {
   const dispatch = useDispatch();
@@ -13,36 +18,56 @@ function App() {
   const filmsState = useSelector( (state: RootStore) => state.films);
   const [isFetchAllCharackters, setIsFetchAllCharackters] = useState(false);
   const [characters, setCharacters] = useState(charactersState.characters);
-  const [charactersShow, setCharactersShow] = useState(charactersState.characters.slice(0, 10))
+  const [charactersShow, setCharactersShow] = useState(charactersState.characters.slice(0, 10));
   const [charactersLength, setCharactersLength] = useState(charactersState.characters.length);
   const [searchCharacter, setSearchCharacter] = useState('');
   const [isFilmsFilterShow, setIsFilmsFilterShow] = useState(false);
+  const [lastExecution, setLastExecution] = useState(0);
 
   useEffect(() => {
     dispatch(fetchCharacters(`${API_URL}/people`));
     dispatch(fetchFilms(`${API_URL}/films`));
+    // window.addEventListener('scroll', infiniteScroll);
+    return () => {
+      // window.removeEventListener('scroll', infiniteScroll);
+    }
   }, [dispatch])
 
   useEffect(() => {
     setCharacters(charactersState.characters);
     setCharactersShow(charactersState.characters.slice(0, 10));
     setCharactersLength(charactersState.characters.length)
-  }, [charactersState.characters])
+  }, [charactersState])
 
   useEffect(() => {
     checkIsFetchAllCharacters();
   }, [charactersShow])
   
-  const checkIsFetchAllCharacters = () => {
-    const charactersShowLength = charactersShow.length;
-    const newIndex = charactersShowLength + 5;
-
-    if (newIndex >= charactersLength) {
-      setIsFetchAllCharackters(true);
-    } else {
-      setIsFetchAllCharackters(false);
-    }
-  }
+  
+  // const infiniteScroll = () => {
+  //   var now = Date.now();
+  //   if (now - lastExecution < 17) return;
+  //   setLastExecution(now);
+  //   console.log(Math.ceil(window.innerHeight + window.scrollY), document.body.offsetHeight);
+  //   if (Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+  //     const charactersShowLength = charactersShow.length;
+  //     console.log(charactersShowLength)
+  //     console.log(charactersShow);
+  //     let newIndex = charactersShowLength + 5;
+  //     if (newIndex >= charactersLength) {
+  //       newIndex = charactersLength;
+  //       setIsFetchAllCharackters(true);
+  //     }
+      
+  //     const newArray = [...characters];
+  //     setCharactersShow(
+  //       [
+  //         ...charactersShow,
+  //         ...newArray.slice(charactersShowLength, newIndex)
+  //       ]
+  //     )
+  //   }
+  // }
 
   const handleButton = () => {
     const charactersShowLength = charactersShow.length;
@@ -53,6 +78,17 @@ function App() {
     }
     
     setCharactersShow([...charactersShow, ...characters.slice(charactersShowLength, newIndex)])
+  }
+  
+  const checkIsFetchAllCharacters = () => {
+    const charactersShowLength = charactersShow.length;
+    const newIndex = charactersShowLength + 5;
+
+    if (newIndex >= charactersLength) {
+      setIsFetchAllCharackters(true);
+    } else {
+      setIsFetchAllCharackters(false);
+    }
   }
 
   const updateInput = (e: React.FormEvent<HTMLInputElement>) => {
@@ -87,26 +123,38 @@ function App() {
  }
   
   return (
-    <div className="App">
-      <input
-        placeholder="szukaj ludziów"
-        value={searchCharacter}
-        onChange={e => updateInput(e)}
-      />
-      <button onClick={() => setIsFilmsFilterShow(!isFilmsFilterShow)} disabled={filmsState.loading}>filters</button>
-      {!filmsState.loading && <FilmsFilter filmsList={filmsState.films} isShow={isFilmsFilterShow} onChangeCheckbox={handleFilmsFilter}/>}
+    <div className="app">
+      <header>
+        <img className="logo" src={Logo} alt="star wars" />
+        <div className="filters-container">
+          <input
+            className="search-bar"
+            placeholder="Type a letter..."
+            value={searchCharacter}
+            onChange={e => updateInput(e)}
+          />
+          <button 
+            className="filter-button" 
+            onClick={() => setIsFilmsFilterShow(!isFilmsFilterShow)} 
+            disabled={filmsState.loading}
+          >
+            <img src={FilterIcon} alt="filter" />
+          </button>
+          {!filmsState.loading && <FilmsFilter filmsList={filmsState.films} isShow={isFilmsFilterShow} onChangeCheckbox={handleFilmsFilter}/>}
+        </div>
+      </header>
+      <div className="r"></div>
       <main>
         {charactersState.loading ? (
           <div>Ładuje</div>
         ) : (
-          charactersState.characters && (<CharactersList charactersList={charactersShow} />)
+          <>
+          {charactersState.characters && <CharactersList charactersList={charactersShow} />}
+          { !isFetchAllCharackters && <button onClick={handleButton}>Załaduj więcej</button>}
+          </>
         )}
-        { !isFetchAllCharackters ? (
-        <button onClick={handleButton}>Załaduj więcej</button>
-        ) : (
-          <div>załadowano wsyzstko</div>
-        )
-        }
+      <div className="characters-length">{charactersShow.length}/{charactersLength}</div>
+      <div className="r"></div>
       </main>
     </div>
   );
