@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, {useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore } from './app/store';
 import { fetchCharacters } from './app/characters/characktersActions';
@@ -16,20 +16,21 @@ function App() {
   const dispatch = useDispatch();
   const charactersState = useSelector( (state: RootStore) => state.characters);
   const filmsState = useSelector( (state: RootStore) => state.films);
-  const [isFetchAllCharackters, setIsFetchAllCharackters] = useState(false);
-  const [characters, setCharacters] = useState(charactersState.characters);
-  const [charactersShow, setCharactersShow] = useState(charactersState.characters.slice(0, 10));
-  const [charactersLength, setCharactersLength] = useState(charactersState.characters.length);
+  const [isFetchAllCharacters, setIsFetchAllCharacters] = useState(false);
+  const [characters, setCharacters] = useState<CharactersInformation[]>(charactersState.characters);
+  const [charactersShow, setCharactersShow] = useState<CharactersInformation[]>(charactersState.characters.slice(0, 10));
+  const [charactersShowLength, setCharactersShowLength] = useState<number>(charactersShow.length);
+  const [charactersLength, setCharactersLength] = useState<number>(charactersState.characters.length);
   const [searchCharacter, setSearchCharacter] = useState('');
   const [isFilmsFilterShow, setIsFilmsFilterShow] = useState(false);
-  const [lastExecution, setLastExecution] = useState(0);
+  const prevNewIndex = useRef(0);
 
   useEffect(() => {
     dispatch(fetchCharacters(`${API_URL}/people`));
     dispatch(fetchFilms(`${API_URL}/films`));
-    // window.addEventListener('scroll', infiniteScroll);
+    window.addEventListener('scroll', infiniteScroll);
     return () => {
-      // window.removeEventListener('scroll', infiniteScroll);
+      window.removeEventListener('scroll', infiniteScroll);
     }
   }, [dispatch])
 
@@ -41,54 +42,37 @@ function App() {
 
   useEffect(() => {
     checkIsFetchAllCharacters();
+    setCharactersShowLength(charactersShow.length);
   }, [charactersShow])
+
+  const updateCharactersShow = (index: number) => {
+    setCharactersShow([...charactersShow, ...characters.slice(charactersShowLength, index)])
+  }
   
   
-  // const infiniteScroll = () => {
-  //   var now = Date.now();
-  //   if (now - lastExecution < 17) return;
-  //   setLastExecution(now);
-  //   console.log(Math.ceil(window.innerHeight + window.scrollY), document.body.offsetHeight);
-  //   if (Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-  //     const charactersShowLength = charactersShow.length;
-  //     console.log(charactersShowLength)
-  //     console.log(charactersShow);
-  //     let newIndex = charactersShowLength + 5;
-  //     if (newIndex >= charactersLength) {
-  //       newIndex = charactersLength;
-  //       setIsFetchAllCharackters(true);
-  //     }
+  const infiniteScroll = () => {
+    if (Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight && !isFetchAllCharacters) {
+      let newIndex = charactersShowLength + 5;
+      if (newIndex >= charactersLength) {
+        newIndex = charactersLength;
+      }
       
-  //     const newArray = [...characters];
-  //     setCharactersShow(
-  //       [
-  //         ...charactersShow,
-  //         ...newArray.slice(charactersShowLength, newIndex)
-  //       ]
-  //     )
-  //   }
-  // }
+      updateCharactersShow(newIndex);
+      prevNewIndex.current = newIndex;
+    }
+  }
 
   const handleButton = () => {
-    const charactersShowLength = charactersShow.length;
     let newIndex = charactersShowLength + 5;
     if (newIndex >= charactersLength) {
       newIndex = charactersLength;
-      setIsFetchAllCharackters(true);
     }
     
     setCharactersShow([...charactersShow, ...characters.slice(charactersShowLength, newIndex)])
   }
   
   const checkIsFetchAllCharacters = () => {
-    const charactersShowLength = charactersShow.length;
-    const newIndex = charactersShowLength + 5;
-
-    if (newIndex >= charactersLength) {
-      setIsFetchAllCharackters(true);
-    } else {
-      setIsFetchAllCharackters(false);
-    }
+    setIsFetchAllCharacters(charactersShow.length === characters.length);
   }
 
   const updateInput = (e: React.FormEvent<HTMLInputElement>) => {
@@ -150,7 +134,7 @@ function App() {
         ) : (
           <>
           {charactersState.characters && <CharactersList charactersList={charactersShow} />}
-          { !isFetchAllCharackters && <button onClick={handleButton}>Załaduj więcej</button>}
+          { !isFetchAllCharacters && <button onClick={handleButton}>Załaduj więcej</button>}
           </>
         )}
       <div className="characters-length">{charactersShow.length}/{charactersLength}</div>
