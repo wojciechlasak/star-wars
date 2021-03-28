@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CharactersInformation } from './characterActionTypes';
+import { CharactersInformation } from '../characterActionTypes';
 
 interface CharacterProps {
   character: CharactersInformation;

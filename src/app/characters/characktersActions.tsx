@@ -1,9 +1,15 @@
 import { Dispatch } from 'redux';
 import { CharactersDispatchTypes, CHARACTERS_SUCCESS, CHARACTERS_LOADING, CHARACTERS_FAIL } from './characterActionTypes';
 
-// export const getCharacters = (dispatch: Dispatch<CharactersDispatchTypes>) => {
 
-// }
+const getAllDataFromPages = async (numberOfPages: number, url: string) => {
+  const numberOfPagesLeft = Math.ceil((numberOfPages - 1) / 10);
+  const promises = [];
+  for (let i = 2; i <= numberOfPagesLeft; i++) {
+    promises.push(fetch(`${url}/?page=${i}`));
+  }
+  return Promise.all(promises);
+}
 
 export const fetchCharacters = (url: string) => async (dispatch: Dispatch<CharactersDispatchTypes>) => {
   try {
@@ -12,33 +18,23 @@ export const fetchCharacters = (url: string) => async (dispatch: Dispatch<Charac
     })
 
 
-    await fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        dispatch({
-          type: CHARACTERS_SUCCESS,
-          payload: res.results
-        })
-        return res.count;
-      })
-      .then(count => {
-        const numberOfPagesLeft = Math.ceil((count - 1) / 10);
-        let promises = [];
-        for (let i = 2; i <= numberOfPagesLeft; i++) {
-            promises.push(fetch(`${url}/?page=${i}`));
-        }
-        return Promise.all(promises)
+    const firstPageData = await fetch(url)
+    const firstPageDataJson = await firstPageData.json();
+    const numberOfPages  = await firstPageDataJson.count;
+    dispatch({
+      type: CHARACTERS_SUCCESS,
+      payload: firstPageDataJson.results
     })
-    .then(res => res.map(value => value.json()))
-    .then(res => res.map(value => value.then(
-        response => {
-        
-        dispatch({
-          type: CHARACTERS_SUCCESS,
-          payload: response.results
-        })
-      }))
-    )
+
+    const allData = await getAllDataFromPages(numberOfPages, url);
+    const allDataJson = await allData.map(data => data.json());
+    for (const data of allDataJson) {
+      const dataLoaded = await data;
+      dispatch({
+        type: CHARACTERS_SUCCESS,
+        payload: dataLoaded.results
+      })
+    }
 
   } catch(e) {
     dispatch({

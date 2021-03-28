@@ -7,7 +7,7 @@ export type CharactersInformation = {
   gender: string,
   birth_year: string,
   height: string,
-  film: string[],
+  films: string[],
 }
 
 export interface CharactersLoading {

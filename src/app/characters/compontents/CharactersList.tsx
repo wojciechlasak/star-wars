@@ -1,6 +1,6 @@
 import React from 'react';
 import { Character } from './Character';
-import { CharactersInformation } from './characterActionTypes';
+import { CharactersInformation } from '../characterActionTypes';
 
 interface CharactersListProps {
   charactersList: CharactersInformation[] 
