@@ -17,7 +17,6 @@ export const fetchCharacters = (url: string) => async (dispatch: Dispatch<Charac
       type: CHARACTERS_LOADING
     })
 
-
     const firstPageData = await fetch(url)
     const firstPageDataJson = await firstPageData.json();
     const numberOfPages  = await firstPageDataJson.count;
