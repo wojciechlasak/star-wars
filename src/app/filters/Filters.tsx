@@ -32,7 +32,6 @@ export const Filters: React.FC<FiltersProps> = ({films, characters, filmsLoading
           const index = Number(film.replace(/\D/g, ''));
           return films[index - 1];
         });
-        console.log(characterFilms);
         characterFilms = characterFilms.filter(film => filmsToFiltered.includes(film.title));
         return characterFilms.length !== 0;
       });
