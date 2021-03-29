@@ -22,7 +22,7 @@ const App: React.FC = () => {
 
 
   const infiniteScroll = useCallback(() => {
-    if (Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight && !isFetchAllCharacters) {
+    if (Math.ceil(window.innerHeight + window.scrollY)+2 >= document.body.offsetHeight && !isFetchAllCharacters) {
       let newIndex = charactersShow.length + DATA_AMOUNT_LOAD;
       if (newIndex >= characters.length) {
         newIndex = characters.length;
