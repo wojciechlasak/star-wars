@@ -15,6 +15,7 @@ export interface FilmsCheckboxes {
   title: string,
 }
 
+
 export const FilmsFilter: React.FC<FilmsFilterProps> = ({ filmsList, isShow, onChangeCheckbox }) => {
   const [isAll, setIsAll] = useState<boolean>(true)
   const [films, setFilms] = useState<FilmsCheckboxes[]>(filmsList.map((film, index) => (
@@ -34,7 +35,7 @@ export const FilmsFilter: React.FC<FilmsFilterProps> = ({ filmsList, isShow, onC
     onChangeCheckbox(films);
   }
 
-  const handeOnChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsAll(false);
     setFilms(films.map(film => {
       if (e.target.value === film.title)
@@ -51,7 +52,7 @@ export const FilmsFilter: React.FC<FilmsFilterProps> = ({ filmsList, isShow, onC
         <div className="films-filter-container">
           <div className="films-filter-checked-all" onClick={handleClickAll}>{isAll ? 'Clear' : "Select all"}</div>
           {films.map((film) => (
-            <FilmCheckbox key={film.title} film={film} onChange={handeOnChangeCheckbox} />
+            <FilmCheckbox key={film.title} film={film} onChange={handleOnChangeCheckbox} />
           ))}
         </div>
       )}

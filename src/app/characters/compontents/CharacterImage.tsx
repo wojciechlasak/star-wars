@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/character.scss';
 import Female from '../../../media/female.png';
 import Male from '../../../media/male.png';
 import None from '../../../media/undefined.png';
 import Na from '../../../media/na.png';
+import '../styles/character.scss';
 
 interface CharacterImageProps {
   gender: string
 }
 
 export const CharacterImage: React.FC<CharacterImageProps> = ({gender}) => {
-  const [icon, setIcon] = useState('')
+  const [icon, setIcon] = useState<string>('')
 
   useEffect(() => {
     switch (gender) {
