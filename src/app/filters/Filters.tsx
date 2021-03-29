@@ -26,18 +26,21 @@ export const Filters: React.FC<FiltersProps> = ({films, characters, filmsLoading
     let filteredCharacters = characters.filter(character => (
       character.name.toLowerCase().includes(searchCharacter.toLowerCase())
     ))
+    if(!filmsLoading) {
     filteredCharacters = filteredCharacters.filter(character => {
       let characterFilms = character.films.map(film => {
-        const index = Number(film.replace(/\D/g, ''));
-        return films[index - 1];
+          const index = Number(film.replace(/\D/g, ''));
+          return films[index - 1];
         });
+        console.log(characterFilms);
         characterFilms = characterFilms.filter(film => filmsToFiltered.includes(film.title));
         return characterFilms.length !== 0
       });
+    }
 
     onChangeFilter(filteredCharacters);
 
-  }, [searchCharacter, filmsToFiltered, films, characters, onChangeFilter])
+  }, [searchCharacter, filmsToFiltered, films, characters, onChangeFilter, filmsLoading])
 
   const updateInput = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
