@@ -33,6 +33,16 @@
         font-family: inherit;
         width: 15em;
         font-size: 1.2em;
+        transition: box-shadow 0.3s;
+
+        &:disabled {
+          border-color: $grey;
+        }
+
+        &:focus {
+          box-shadow: 0px 0px 50px 0px rgba(255, 232, 31, 1);
+          outline: none;
+        }
       }
 
       .filter-button {
@@ -68,13 +78,13 @@
       top: 50%;
       left: 50%;
       transform: translateX(-50%);
-  
+
       img {
         width: 1em;
         animation: rotation 2s infinite linear;
       }
     }
-  
+
     .characters-length {
       text-align: center;
       font-size: 1.5em;
@@ -84,9 +94,9 @@
 
 @keyframes rotation {
   from {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   to {
-      transform: rotate(359deg);
+    transform: rotate(359deg);
   }
 }
