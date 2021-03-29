@@ -4,6 +4,8 @@ import { RootStore } from '../../store';
 import { CharactersInformation } from '../characterActionTypes';
 import { CharacterImage } from './CharacterImage';
 import BirthIcon from '../../../media/birth.png';
+import Mass from '../../../media/mass.png';
+import Height from '../../../media/height.png';
 import '../styles/character.scss';
 
 interface CharacterProps {
@@ -12,7 +14,7 @@ interface CharacterProps {
 
 export const Character: React.FC<CharacterProps> = ({ character }) => {
   const filmsState = useSelector((state: RootStore) => state.films);
-  const [shouldShowMore, setShouldShowMore] = useState(false);
+  const [shouldShowMore, setShouldShowMore] = useState<boolean>(false);
   return (
     <div
       className="character-single"
@@ -49,8 +51,8 @@ export const Character: React.FC<CharacterProps> = ({ character }) => {
               return <li key={index}>{filmsState.films[index - 1].title}</li>
             })}
           </ul>
-          <div><img src={BirthIcon} className="icon" alt="birth" />  {character.height}</div>
-          <div><img src={BirthIcon} className="icon" alt="birth" />  {character.mass}</div>
+          <div><img src={Height} className="icon" alt="height" />  {character.height}</div>
+          <div><img src={Mass} className="icon" alt="mass" />  {character.mass}</div>
         </div>
       </div>
     </div>
