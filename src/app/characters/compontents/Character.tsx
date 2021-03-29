@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootStore } from '../../store';
+import { RootStore } from '../../store/store';
 import { CharactersInformation } from '../characterActionTypes';
 import { CharacterImage } from './CharacterImage';
 import BirthIcon from '../../../media/birth.png';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootStore } from './app/store';
+import { RootStore } from './app/store/store';
 import { fetchCharacters } from './app/characters/characktersActions';
 import { CharactersList } from './app/characters/compontents/CharactersList';
 import { CharactersInformation } from './app/characters/characterActionTypes';
@@ -116,11 +116,11 @@ function App() {
         {charactersState.loading ? (
           <div className="loader"><img src={Sword} alt="sword" /></div>
         ) : (
-            <>
-              {charactersState.characters && <CharactersList charactersList={charactersShow} />}
-              <div className="characters-length">{charactersShow.length}/{characters.length}</div>
-            </>
-          )}
+          <>
+            {charactersState.characters && <CharactersList charactersList={charactersShow} />}
+            <div className="characters-length">{charactersShow.length}/{characters.length}</div>
+          </>
+        )}
         <div className="r"></div>
       </main>
     </div>
