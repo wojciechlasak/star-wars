@@ -19,56 +19,6 @@
       max-width: 30em;
       min-width: 15em;
     }
-
-    .filters-container {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .search-bar {
-        @include border($yellow);
-        padding: 0.5rem;
-        background-color: $background;
-        color: $yellow;
-        font-family: inherit;
-        width: 15em;
-        font-size: 1.2em;
-        transition: box-shadow 0.3s;
-
-        &:disabled {
-          border-color: $grey;
-        }
-
-        &:focus {
-          box-shadow: 0px 0px 50px 0px rgba(255, 232, 31, 1);
-          outline: none;
-        }
-      }
-
-      .filter-button {
-        margin-left: 1em;
-        padding: 0.5em 0.4em 0.4em 0.4em;
-        border-radius: $borderRadius;
-        border: none;
-        background-color: $yellow;
-        vertical-align: middle;
-        transition: background-color 0.3s;
-        cursor: pointer;
-
-        &:hover {
-          background-color: rgba($yellow, 0.8);
-        }
-
-        &:disabled {
-          opacity: 0.5;
-        }
-
-        img {
-          width: 2em;
-          vertical-align: middle;
-        }
-      }
-    }
   }
 
   main {
