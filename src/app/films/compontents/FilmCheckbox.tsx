@@ -1,5 +1,6 @@
 import React from 'react';
 import { FilmsCheckboxes } from './FilmsFilter';
+import '../styles/filmsCheckbox.scss';
 
 interface FilmCheckboxProps {
   film: FilmsCheckboxes,
@@ -16,7 +17,7 @@ export const FilmCheckbox: React.FC<FilmCheckboxProps> = ({film, onChange}) => {
         name="title"
         checked={film.isChecked}
         onChange={onChange}
-      /> {film.title}
+      /> <span>{film.title}</span>
     </label>
   )
 } 

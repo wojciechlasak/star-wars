@@ -1,0 +1,48 @@
+@import '../../../styles/variables.scss';
+
+input[type='checkbox'] {
+  display: none;
+
+  & + span {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    align-items: center;
+    transition: 0.2s;
+    margin: 0.25em 0;
+
+    &:before {
+      content: '';
+      padding: 6px;
+      border: 1px solid $yellow;
+      margin-right: 0.5em;
+      display: inline-block;
+      transition: 0.2s;
+    }
+
+    &:after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background-color: $yellow;
+      left: 3px;
+      top: 3px;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    &:hover {
+      &:after {
+        opacity: 0.4;
+      }
+    }
+  }
+  &:checked {
+    & + span {
+      &:after {
+        opacity: 1;
+      }
+    }
+  }
+}
