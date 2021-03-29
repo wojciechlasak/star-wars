@@ -34,7 +34,7 @@ export const Filters: React.FC<FiltersProps> = ({films, characters, filmsLoading
         });
         console.log(characterFilms);
         characterFilms = characterFilms.filter(film => filmsToFiltered.includes(film.title));
-        return characterFilms.length !== 0
+        return characterFilms.length !== 0;
       });
     }
 

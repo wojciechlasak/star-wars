@@ -5,8 +5,6 @@ export const FILMS_SUCCESS = 'FILMS_SUCCESS';
 export type FilmsInformation = {
   title: string,
 }
-
-
 export interface FilmsLoading {
   type: typeof FILMS_LOADING;
 }

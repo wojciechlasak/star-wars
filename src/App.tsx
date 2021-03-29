@@ -6,7 +6,7 @@ import { fetchFilms } from './app/films/filmsAction';
 import { CharactersList } from './app/characters/compontents/CharactersList';
 import { CharactersInformation } from './app/characters/characterActionTypes';
 import { Filters } from './app/filters/Filters';
-import { API_URL } from './constants/constants';
+import { API_URL, DATA_AMOUNT_FIRST_LOAD, DATA_AMOUNT_LOAD } from './constants/constants';
 import Logo from './media/logo.png';
 import Sword from './media/sword.png';
 import './styles/app.scss';
@@ -18,12 +18,12 @@ const App: React.FC = () => {
   const filmsState = useSelector((state: RootStore) => state.films);
   const [isFetchAllCharacters, setIsFetchAllCharacters] = useState<boolean>(false);
   const [characters, setCharacters] = useState<CharactersInformation[]>(charactersState.characters);
-  const [charactersShow, setCharactersShow] = useState<CharactersInformation[]>(charactersState.characters.slice(0, 10));
+  const [charactersShow, setCharactersShow] = useState<CharactersInformation[]>(charactersState.characters.slice(0, DATA_AMOUNT_FIRST_LOAD));
 
 
   const infiniteScroll = useCallback(() => {
     if (Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight && !isFetchAllCharacters) {
-      let newIndex = charactersShow.length + 5;
+      let newIndex = charactersShow.length + DATA_AMOUNT_LOAD;
       if (newIndex >= characters.length) {
         newIndex = characters.length;
         setIsFetchAllCharacters(true)
@@ -51,7 +51,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     setCharacters(charactersState.characters);
-    setCharactersShow(charactersState.characters.slice(0, 10));
+    setCharactersShow(charactersState.characters.slice(0, DATA_AMOUNT_FIRST_LOAD));
   }, [charactersState])
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const App: React.FC = () => {
 
   const handleOnChangeFilter = useCallback((charactersFiltered: CharactersInformation[]) => {
     setCharacters(charactersFiltered)
-    setCharactersShow(charactersFiltered.slice(0, 10));
+    setCharactersShow(charactersFiltered.slice(0, DATA_AMOUNT_FIRST_LOAD));
   }, [])
 
   return (
