@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/character.scss';
 import Female from '../../../media/female.png';
 import Male from '../../../media/male.png';
-import Undefined from '../../../media/undefined.png';
+import None from '../../../media/undefined.png';
 import Na from '../../../media/na.png';
 
 interface CharacterImageProps {
@@ -20,14 +20,14 @@ export const CharacterImage: React.FC<CharacterImageProps> = ({gender}) => {
       case 'male':
         setIcon(Male);
         break;
-      case 'undefined':
-        setIcon(Undefined);
+      case 'none':
+        setIcon(None);
         break;
       case 'n/a':
         setIcon(Na);
         break;
       default:
-        setIcon(Undefined);
+        setIcon(None);
         break;
     }
   }, [gender])

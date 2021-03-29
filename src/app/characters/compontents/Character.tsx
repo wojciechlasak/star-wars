@@ -49,7 +49,8 @@ export const Character: React.FC<CharacterProps> = ({ character }) => {
               return <li key={index}>{filmsState.films[index - 1].title}</li>
             })}
           </ul>
-          <div>{character.height}</div>
+          <div><img src={BirthIcon} className="icon" alt="birth" />  {character.height}</div>
+          <div><img src={BirthIcon} className="icon" alt="birth" />  {character.mass}</div>
         </div>
       </div>
     </div>

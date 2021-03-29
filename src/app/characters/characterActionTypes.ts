@@ -7,6 +7,7 @@ export type CharactersInformation = {
   gender: string,
   birth_year: string,
   height: string,
+  mass: string,
   films: string[],
 }
 
