@@ -20,20 +20,19 @@ export const fetchCharacters = (url: string) => async (dispatch: Dispatch<Charac
     const firstPageData = await fetch(url)
     const firstPageDataJson = await firstPageData.json();
     const numberOfPages  = await firstPageDataJson.count;
-    dispatch({
-      type: CHARACTERS_SUCCESS,
-      payload: firstPageDataJson.results
-    })
+    let characters = await [...firstPageDataJson.results];
 
     const allData = await getAllDataFromPages(numberOfPages, url);
     const allDataJson = await allData.map(data => data.json());
     for (const data of allDataJson) {
       const dataLoaded = await data;
-      dispatch({
-        type: CHARACTERS_SUCCESS,
-        payload: dataLoaded.results
-      })
+      characters = await [...characters, ...dataLoaded.results]
     }
+
+    dispatch({
+      type: CHARACTERS_SUCCESS,
+      payload: characters,
+    })
 
   } catch(e) {
     dispatch({
